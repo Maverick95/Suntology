@@ -1,0 +1,13 @@
+
+            var location = Assembly.GetExecutingAssembly().Location;
+            var locationPath = location.Substring(0, location.LastIndexOf('\\'));
+
+            migrationBuilder.Sql(
+                File.ReadAllText(
+                    Path.Combine(
+                        locationPath,
+                        "Scripts",
+                        "CreateTestDataset",
+                        "V1.sql")
+                    )
+                );
