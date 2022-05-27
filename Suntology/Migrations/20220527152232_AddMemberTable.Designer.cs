@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Suntology.Contexts;
 
 namespace Suntology.Migrations
 {
     [DbContext(typeof(SuntologyContext))]
-    partial class SuntologyContextModelSnapshot : ModelSnapshot
+    [Migration("20220527152232_AddMemberTable")]
+    partial class AddMemberTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,34 +46,6 @@ namespace Suntology.Migrations
                     b.ToTable("suntology.caste");
                 });
 
-            modelBuilder.Entity("Suntology.Contexts.InternalComm", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("InitiateeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InitiatorId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InitiateeId");
-
-                    b.HasIndex("InitiatorId");
-
-                    b.ToTable("suntology.internalcomms");
-                });
-
             modelBuilder.Entity("Suntology.Contexts.Member", b =>
                 {
                     b.Property<int>("Id")
@@ -84,8 +58,7 @@ namespace Suntology.Migrations
 
                     b.Property<string>("AssignedGender")
                         .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CasteId")
                         .HasColumnType("int");
@@ -110,25 +83,6 @@ namespace Suntology.Migrations
                     b.HasIndex("CasteId");
 
                     b.ToTable("suntology.member");
-                });
-
-            modelBuilder.Entity("Suntology.Contexts.InternalComm", b =>
-                {
-                    b.HasOne("Suntology.Contexts.Member", "Initiatee")
-                        .WithMany()
-                        .HasForeignKey("InitiateeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Suntology.Contexts.Member", "Initiator")
-                        .WithMany()
-                        .HasForeignKey("InitiatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Initiatee");
-
-                    b.Navigation("Initiator");
                 });
 
             modelBuilder.Entity("Suntology.Contexts.Member", b =>

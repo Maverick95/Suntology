@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Suntology.Contexts;
 
 namespace Suntology.Migrations
 {
     [DbContext(typeof(SuntologyContext))]
-    partial class SuntologyContextModelSnapshot : ModelSnapshot
+    [Migration("20220527154442_AddSingleCharConstraintToAssignedGender")]
+    partial class AddSingleCharConstraintToAssignedGender
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
