@@ -8,6 +8,7 @@ namespace Suntology.Handlers
 {
     public interface IHandler
     {
+        void Prompt();
         void Handle(string input);
     }
 }
