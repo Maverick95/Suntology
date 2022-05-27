@@ -18,6 +18,7 @@ namespace Suntology.Handlers
             {
                 { Command.PRINT_EMAIL, new PrintEmail() },
                 { Command.PRINT_NAME, new PrintName() },
+                { Command.SUNTOLOGY_ADD_CASTE, new AddCaste() },
             };
         }
 
