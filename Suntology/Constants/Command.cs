@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Suntology.Commands
+namespace Suntology.Constants
 {
     public enum Command
     {

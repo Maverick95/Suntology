@@ -3,20 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Suntology.Commands;
+using Suntology.Constants;
 using Suntology.Actions;
+using Suntology.Timers;
+using System.Text.RegularExpressions;
 
 namespace Suntology.Handlers
 {
     public class CommandHandler: IHandler
     {
-        private class Details
+        private class CommandDetails
         {
             public string Description { get; set; }
-            public IAction Action { get; set; }
+            public Func<IAction> Action { get; set; }
         }
 
-        private Dictionary<Command, Details> _actions;
+        private class TimerDetails
+        {
+            public string Description { get; set; }
+            public Func<ITimer> Factory { get; set; }
+        }
+
+        private Dictionary<Command, CommandDetails> _actions;
+
+        private Dictionary<Timer, TimerDetails> _timers;
+
+        private ITimer? _timer;
 
         public CommandHandler()
         {
@@ -27,7 +39,7 @@ namespace Suntology.Handlers
                     new()
                     {
                         Description = "Add a new caste",
-                        Action = new AddCaste(),
+                        Action = () => new AddCaste(),
                     }
                 },
                 {
@@ -35,7 +47,19 @@ namespace Suntology.Handlers
                     new()
                     {
                         Description = "Find vulnerable workers",
-                        Action = new FindVulnerable(),
+                        Action = () => new FindVulnerable(),
+                    }
+                }
+            };
+
+            _timers = new()
+            {
+                {
+                    Timer.TIMER_STANDARD_10,
+                    new()
+                    {
+                        Description = "Run action 10 times",
+                        Factory = () => new StandardTimer(10),
                     }
                 }
             };
@@ -51,10 +75,44 @@ namespace Suntology.Handlers
 
         public void Handle(string input)
         {
-            if (Enum.TryParse(input, out Command command) &&
-                _actions.TryGetValue(command, out Details details))
+            if ((new Regex("^RUN .+")).IsMatch(input))
             {
-                details.Action?.Run();
+                var run_input = input.Substring(4);
+
+                if (Enum.TryParse(run_input, out Command command) &&
+                    _actions.TryGetValue(command, out CommandDetails details))
+                {
+                    if (_timer is not null)
+                    {
+                        _timer.Run(() => details.Action().Run());
+                    }
+                    else
+                    {
+                        details.Action().Run();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("CommandHandler sez... uh-oh! Something went wrong!");
+                }
+            }
+            else if ((new Regex("^TIMER .+")).IsMatch(input))
+            {
+                var timer_input = input.Substring(6);
+
+                if (timer_input is "NONE")
+                {
+                    _timer = null;
+                }
+                else if (Enum.TryParse(timer_input, out Timer timer) &&
+                    _timers.TryGetValue(timer, out TimerDetails details))
+                {
+                    _timer = details.Factory();
+                }
+                else
+                {
+                    Console.WriteLine("CommandHandler sez... uh-oh! Something went wrong!");
+                }
             }
             else
             {
