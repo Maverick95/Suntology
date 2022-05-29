@@ -9,7 +9,7 @@ namespace Suntology.Actions
 {
     public class AddCaste: IAction
     {
-        private SuntologyContext _context;
+        private readonly SuntologyContext _context;
 
         public AddCaste()
         {

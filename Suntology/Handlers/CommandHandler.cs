@@ -24,10 +24,18 @@ namespace Suntology.Handlers
             {
                 {
                     Command.SUNTOLOGY_ADD_CASTE,
-                    new Details
+                    new()
                     {
                         Description = "Add a new caste",
-                        Action = new AddCaste()
+                        Action = new AddCaste(),
+                    }
+                },
+                {
+                    Command.SUNTOLOGY_FIND_VULNERABLE,
+                    new()
+                    {
+                        Description = "Find vulnerable workers",
+                        Action = new FindVulnerable(),
                     }
                 }
             };

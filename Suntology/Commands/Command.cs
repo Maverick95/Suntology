@@ -11,5 +11,6 @@ namespace Suntology.Commands
         PRINT_NAME,
         PRINT_EMAIL,
         SUNTOLOGY_ADD_CASTE,
+        SUNTOLOGY_FIND_VULNERABLE,
     }
 }

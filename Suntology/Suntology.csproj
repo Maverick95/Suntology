@@ -34,6 +34,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Scripts\CreateTestDataset\V2.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Scripts\CreateTestDataset\V1.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
