@@ -32,11 +32,9 @@ namespace Suntology.Contexts
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string FormerForename { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string FormerSurname { get; set; }
 
@@ -44,12 +42,10 @@ namespace Suntology.Contexts
         [MaxLength(255)]
         public string Name { get; set; }
 
-        [Required]
         [MaxLength(1)]
         public string AssignedGender { get; set; }
 
-        [Required]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         [ForeignKey("Caste")]
         public int CasteId { get; set; }
